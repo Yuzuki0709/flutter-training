@@ -1,0 +1,10 @@
+{
+  "dart.flutterSdkPath": ".fvm/versions/{{flutterVersion}}",
+  "search.exclude": {
+    "**/.fvm": true
+  },
+  "files.watcherExclude": {
+    "**/.fvm": true
+  },
+  "cSpell.ignoreWords": ["yumemi"]
+}
