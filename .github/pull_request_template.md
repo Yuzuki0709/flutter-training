@@ -1,13 +1,22 @@
-## 提出前チェックリスト (必須)
-
-- [ ] [貢献ガイド] を読み、そこに記載されているプロセスに従って PR を送信しました。
-- [ ] この PR によって修正される Issue を少なくとも 1 つ挙げました。または簡単な修正。
-- [ ] 関連ドキュメントを更新・追加しました。
-
-## Issue（オプション）
+## 課題
 
 close #ISSUE_NUMBER
 
-<!-- Links -->
+## 対応箇所
 
-[貢献ガイド]: https://github.com/yumemi-inc/flutter-training-template/blob/main/docs/contributing/CONTRIBUTING.md
+<!--
+課題のどこに対応したか１つ１つ確認しましょう。
+-->
+
+- [ ] xxx
+
+## 動作
+
+<!--
+画像や動画を添付しましょう。
+動作に変更なければ、必要ありません。
+-->
+
+| expected | actual |
+|----------|--------|
+| xxx      | xxx    |
