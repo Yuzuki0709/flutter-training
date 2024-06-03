@@ -5,7 +5,7 @@ on:
     types: [ opened, ready_for_review ]
 
 env:
-  REVIEWERS: ''
+  REVIEWERS: 'nerd0geek1 · he/him'
 
 jobs:
   assign:
