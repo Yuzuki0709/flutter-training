@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:yumemi_weather/yumemi_weather.dart';
+import 'package:flutter_training/screen/weather_screen/components/condition_icon.dart';
 
-class WeatherScreen extends StatelessWidget {
-  const WeatherScreen({super.key});
+class WeatherScreen extends StatefulWidget {
+  const WeatherScreen({required this.yumemiWeather, super.key});
+  final YumemiWeather yumemiWeather;
+
+  @override
+  State<StatefulWidget> createState() => _WeatherScreenState();
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<YumemiWeather>('yumemiWeather', yumemiWeather));
+  }
+}
+
+class _WeatherScreenState extends State<WeatherScreen> {
+  String? _condition;
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +29,11 @@ class WeatherScreen extends StatelessWidget {
               const Spacer(),
 
               // Placeholder
-              const AspectRatio(
+              AspectRatio(
                 aspectRatio: 1,
-                child: Placeholder(),
+                child: _condition == null 
+                    ? const Placeholder() 
+                    : ConditionIcon(condition: _condition!),
               ),
 
               // Texts
@@ -69,14 +86,18 @@ class WeatherScreen extends StatelessWidget {
                         Expanded(
                           child: Center(
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                          _condition = widget.yumemiWeather.fetchSimpleWeather();
+                        });
+                              },
                               child: const Text('Reload'),
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ],
+                  ,,,,],
                 ),
               ),
             ],
