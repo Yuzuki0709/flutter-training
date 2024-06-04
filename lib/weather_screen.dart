@@ -5,62 +5,82 @@ class WeatherScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Spacer(),
-        FractionallySizedBox(
-          widthFactor: 0.5,
-          child: Column(
-            children: [
-              // Placeholder
-              const AspectRatio(
-                aspectRatio: 1,
-                child: Placeholder(),
-              ),
+    return Center(
+      child: FractionallySizedBox(
+        widthFactor: 0.5,
+        child: Column(
+          children: [
+            const Spacer(),
 
-              // Texts
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: DefaultTextStyle(
-                  style: Theme.of(context).textTheme.labelLarge!,
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        '** ℃',
-                        style: TextStyle(
-                          color: Colors.blue,
+            // Placeholder
+            const AspectRatio(
+              aspectRatio: 1,
+              child: Placeholder(),
+            ),
+
+            // Texts
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: DefaultTextStyle(
+                style: Theme.of(context).textTheme.labelLarge!,
+                child: const Row(
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          '** ℃',
+                          style: TextStyle(
+                            color: Colors.blue,
+                          ),
                         ),
                       ),
-                      Text(
-                        '** ℃',
-                        style: TextStyle(
-                          color: Colors.red,
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          '** ℃',
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Buttons
+            Expanded(
+              child: Column(
+                children: [
+                  const SizedBox(height: 80),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: TextButton(
+                            onPressed: () {},
+                            child: const Text('Close'),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: TextButton(
+                            onPressed: () {},
+                            child: const Text('Reload'),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-
-        Expanded(
-          child: Column(
-            children: [
-              const SizedBox(height: 80),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(onPressed: () {}, child: const Text('Close')),
-                    TextButton(onPressed: () {}, child: const Text('Reload')),
-                  ],
-                ),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
