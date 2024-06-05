@@ -12,7 +12,9 @@
   "[dart]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.fixAll": "explicit"
+      "quickfix.add.trailingComma.multi": "always",
+      "quickfix.add.const.multi": "always",
+      "quickfix.remove.unnecessaryConst": "always",
     }
   }
 }
