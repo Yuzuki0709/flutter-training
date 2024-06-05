@@ -6,5 +6,15 @@
   "files.watcherExclude": {
     "**/.fvm": true
   },
-  "cSpell.ignoreWords": ["yumemi"]
+  "cSpell.ignoreWords": [
+    "yumemi"
+  ],
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "quickfix.add.trailingComma.multi": "always",
+      "quickfix.add.const.multi": "always",
+      "quickfix.remove.unnecessaryConst": "always",
+    }
+  }
 }
