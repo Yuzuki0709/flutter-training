@@ -8,11 +8,6 @@ class WeatherScreen extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _WeatherScreenState();
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<YumemiWeather>('yumemiWeather', yumemiWeather));
-  }
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
@@ -31,8 +26,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
               // Placeholder
               AspectRatio(
                 aspectRatio: 1,
-                child: _condition == null 
-                    ? const Placeholder() 
+                child: _condition == null
+                    ? const Placeholder()
                     : ConditionIcon(condition: _condition!),
               ),
 
@@ -88,8 +83,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             child: TextButton(
                               onPressed: () {
                                 setState(() {
-                          _condition = widget.yumemiWeather.fetchSimpleWeather();
-                        });
+                                  _condition =
+                                      widget.yumemiWeather.fetchSimpleWeather();
+                                });
                               },
                               child: const Text('Reload'),
                             ),
@@ -97,7 +93,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         ),
                       ],
                     ),
-                  ,,,,],
+                  ],
                 ),
               ),
             ],

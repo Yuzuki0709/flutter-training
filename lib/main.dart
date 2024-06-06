@@ -11,15 +11,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    return const MaterialApp(
-      home: WeatherScreen(),
-=======
     return MaterialApp(
-      home: Scaffold(
-        body: WeatherScreen(yumemiWeather: YumemiWeather(),),
+      home: WeatherScreen(
+        yumemiWeather: YumemiWeather(),
       ),
->>>>>>> 8089ffa (feat: 天気アイコンを取得できるようにした)
     );
   }
 }
