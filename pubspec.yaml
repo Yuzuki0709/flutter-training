@@ -18,6 +18,8 @@ dependencies:
       path: packages/yumemi_weather
 
 dev_dependencies:
+  build_runner: ^2.4.11
+  flutter_gen_runner: ^5.5.0+1
   flutter_test:
     sdk: flutter
   yumemi_lints: ^2.1.0
