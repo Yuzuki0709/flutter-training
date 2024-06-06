@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:yumemi_weather/yumemi_weather.dart';
 import 'package:flutter_training/screen/weather_screen/components/condition_icon.dart';
+import 'package:yumemi_weather/yumemi_weather.dart';
 
 class WeatherScreen extends StatefulWidget {
-  const WeatherScreen({required this.yumemiWeather, super.key});
-  final YumemiWeather yumemiWeather;
+  const WeatherScreen({required YumemiWeather yumemiWeather, super.key})
+      : _yumemiWeather = yumemiWeather;
+  final YumemiWeather _yumemiWeather;
 
   @override
   State<StatefulWidget> createState() => _WeatherScreenState();
@@ -83,8 +84,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             child: TextButton(
                               onPressed: () {
                                 setState(() {
-                                  _condition =
-                                      widget.yumemiWeather.fetchSimpleWeather();
+                                  _condition = widget._yumemiWeather
+                                      .fetchSimpleWeather();
                                 });
                               },
                               child: const Text('Reload'),
