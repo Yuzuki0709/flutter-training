@@ -28,3 +28,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+
+flutter_gen:
+  integrations:
+    flutter_svg: true
