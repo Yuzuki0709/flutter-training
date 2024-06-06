@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/screen/weather_screen/weather_screen.dart';
-import 'package:yumemi_weather/yumemi_weather.dart';
+import 'package:flutter_training/screen/green_screen/green_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,10 +10,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: WeatherScreen(
-        yumemiWeather: YumemiWeather(),
-      ),
+    return const MaterialApp(
+      home: GreenScreen(),
     );
   }
 }
