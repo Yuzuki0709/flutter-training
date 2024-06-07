@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_training/gen/assets.gen.dart';
+import 'package:flutter_training/model/weather_condition.dart';
 
 class ConditionIcon extends StatelessWidget {
   const ConditionIcon({required String condition, super.key})
@@ -10,21 +9,15 @@ class ConditionIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: _icon(),
-    );
-  }
-
-  SvgPicture? _icon() {
-    switch (_condition) {
-      case 'rainy':
-        return Assets.rainy.svg();
-      case 'cloudy':
-        return Assets.cloudy.svg();
-      case 'sunny':
-        return Assets.sunny.svg();
-      default:
-        return null;
+    try {
+      final condition = WeatherConditionEx.fromString(_condition);
+      return condition.icon;
+    } on Exception {
+      return const Icon(
+        Icons.error,
+        size: 200,
+        color: Colors.red,
+      );
     }
   }
 }
