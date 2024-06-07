@@ -1,0 +1,3 @@
+mixin AfterDisplayMixin {
+  void afterDisplay();
+}
