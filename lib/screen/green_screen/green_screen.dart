@@ -24,8 +24,7 @@ class _GreenScreenState extends State<GreenScreen> {
   }
 
   Future<void> _toWeatherScreen() async {
-    await Future<void>.delayed(const Duration(milliseconds: 500))
-        .then((_) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500), () async {
       if (!context.mounted) {
         return;
       }
