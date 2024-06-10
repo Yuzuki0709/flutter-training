@@ -86,8 +86,16 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             child: TextButton(
                               onPressed: () {
                                 setState(() {
-                                  _condition = widget._yumemiWeather
-                                      .fetchSimpleWeather();
+                                  try {
+                                    _condition = widget._yumemiWeather
+                                        .fetchThrowsWeather('tokyo');
+                                  } on YumemiWeatherError {
+                                    Future(() async {
+                                      await _showErrorDialog(
+                                        message: '原因不明のエラーです',
+                                      );
+                                    });
+                                  }
                                 });
                               },
                               child: const Text('Reload'),
@@ -103,6 +111,33 @@ class _WeatherScreenState extends State<WeatherScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _showErrorDialog({required String message}) {
+    return showDialog(
+      context: context,
+      builder: (context) => _ErrorDialog(message: message),
+    );
+  }
+}
+
+class _ErrorDialog extends StatelessWidget {
+  const _ErrorDialog({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('エラーが発生しました'),
+      content: Text(message),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 }
