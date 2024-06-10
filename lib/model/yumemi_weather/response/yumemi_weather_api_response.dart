@@ -8,7 +8,7 @@ part 'yumemi_weather_api_response.g.dart';
 class YumemiWeatherApiResponse with _$YumemiWeatherApiResponse {
   const factory YumemiWeatherApiResponse({
     // 必要フィールドを定義
-    required WeatherCondition condition,
+    required WeatherCondition weatherCondition,
     required int maxTemperature,
     required int minTemperature,
     required DateTime date,

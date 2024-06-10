@@ -22,7 +22,7 @@ YumemiWeatherApiResponse _$YumemiWeatherApiResponseFromJson(
 /// @nodoc
 mixin _$YumemiWeatherApiResponse {
 // 必要フィールドを定義
-  WeatherCondition get condition => throw _privateConstructorUsedError;
+  WeatherCondition get weatherCondition => throw _privateConstructorUsedError;
   int get maxTemperature => throw _privateConstructorUsedError;
   int get minTemperature => throw _privateConstructorUsedError;
   DateTime get date => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $YumemiWeatherApiResponseCopyWith<$Res> {
       _$YumemiWeatherApiResponseCopyWithImpl<$Res, YumemiWeatherApiResponse>;
   @useResult
   $Res call(
-      {WeatherCondition condition,
+      {WeatherCondition weatherCondition,
       int maxTemperature,
       int minTemperature,
       DateTime date});
@@ -60,15 +60,15 @@ class _$YumemiWeatherApiResponseCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? condition = null,
+    Object? weatherCondition = null,
     Object? maxTemperature = null,
     Object? minTemperature = null,
     Object? date = null,
   }) {
     return _then(_value.copyWith(
-      condition: null == condition
-          ? _value.condition
-          : condition // ignore: cast_nullable_to_non_nullable
+      weatherCondition: null == weatherCondition
+          ? _value.weatherCondition
+          : weatherCondition // ignore: cast_nullable_to_non_nullable
               as WeatherCondition,
       maxTemperature: null == maxTemperature
           ? _value.maxTemperature
@@ -96,7 +96,7 @@ abstract class _$$YumemiWeatherApiResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {WeatherCondition condition,
+      {WeatherCondition weatherCondition,
       int maxTemperature,
       int minTemperature,
       DateTime date});
@@ -115,15 +115,15 @@ class __$$YumemiWeatherApiResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? condition = null,
+    Object? weatherCondition = null,
     Object? maxTemperature = null,
     Object? minTemperature = null,
     Object? date = null,
   }) {
     return _then(_$YumemiWeatherApiResponseImpl(
-      condition: null == condition
-          ? _value.condition
-          : condition // ignore: cast_nullable_to_non_nullable
+      weatherCondition: null == weatherCondition
+          ? _value.weatherCondition
+          : weatherCondition // ignore: cast_nullable_to_non_nullable
               as WeatherCondition,
       maxTemperature: null == maxTemperature
           ? _value.maxTemperature
@@ -145,7 +145,7 @@ class __$$YumemiWeatherApiResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$YumemiWeatherApiResponseImpl implements _YumemiWeatherApiResponse {
   const _$YumemiWeatherApiResponseImpl(
-      {required this.condition,
+      {required this.weatherCondition,
       required this.maxTemperature,
       required this.minTemperature,
       required this.date});
@@ -155,7 +155,7 @@ class _$YumemiWeatherApiResponseImpl implements _YumemiWeatherApiResponse {
 
 // 必要フィールドを定義
   @override
-  final WeatherCondition condition;
+  final WeatherCondition weatherCondition;
   @override
   final int maxTemperature;
   @override
@@ -165,7 +165,7 @@ class _$YumemiWeatherApiResponseImpl implements _YumemiWeatherApiResponse {
 
   @override
   String toString() {
-    return 'YumemiWeatherApiResponse(condition: $condition, maxTemperature: $maxTemperature, minTemperature: $minTemperature, date: $date)';
+    return 'YumemiWeatherApiResponse(weatherCondition: $weatherCondition, maxTemperature: $maxTemperature, minTemperature: $minTemperature, date: $date)';
   }
 
   @override
@@ -173,8 +173,8 @@ class _$YumemiWeatherApiResponseImpl implements _YumemiWeatherApiResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$YumemiWeatherApiResponseImpl &&
-            (identical(other.condition, condition) ||
-                other.condition == condition) &&
+            (identical(other.weatherCondition, weatherCondition) ||
+                other.weatherCondition == weatherCondition) &&
             (identical(other.maxTemperature, maxTemperature) ||
                 other.maxTemperature == maxTemperature) &&
             (identical(other.minTemperature, minTemperature) ||
@@ -184,8 +184,8 @@ class _$YumemiWeatherApiResponseImpl implements _YumemiWeatherApiResponse {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, condition, maxTemperature, minTemperature, date);
+  int get hashCode => Object.hash(
+      runtimeType, weatherCondition, maxTemperature, minTemperature, date);
 
   @JsonKey(ignore: true)
   @override
@@ -204,7 +204,7 @@ class _$YumemiWeatherApiResponseImpl implements _YumemiWeatherApiResponse {
 
 abstract class _YumemiWeatherApiResponse implements YumemiWeatherApiResponse {
   const factory _YumemiWeatherApiResponse(
-      {required final WeatherCondition condition,
+      {required final WeatherCondition weatherCondition,
       required final int maxTemperature,
       required final int minTemperature,
       required final DateTime date}) = _$YumemiWeatherApiResponseImpl;
@@ -213,7 +213,7 @@ abstract class _YumemiWeatherApiResponse implements YumemiWeatherApiResponse {
       _$YumemiWeatherApiResponseImpl.fromJson;
 
   @override // 必要フィールドを定義
-  WeatherCondition get condition;
+  WeatherCondition get weatherCondition;
   @override
   int get maxTemperature;
   @override
