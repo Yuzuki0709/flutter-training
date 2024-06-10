@@ -123,15 +123,15 @@ class _WeatherScreenState extends State<WeatherScreen> {
 }
 
 class _ErrorDialog extends StatelessWidget {
-  const _ErrorDialog({required this.message});
+  const _ErrorDialog({required String message}) : _message = message;
 
-  final String message;
+  final String _message;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('エラーが発生しました'),
-      content: Text(message),
+      content: Text(_message),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
