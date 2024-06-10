@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/screen/weather_screen/components/condition_icon.dart';
+import 'package:flutter_training/utils/yumemi_weather_error_ex.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
 class WeatherScreen extends StatefulWidget {
@@ -89,10 +90,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                   try {
                                     _condition = widget._yumemiWeather
                                         .fetchThrowsWeather('tokyo');
-                                  } on YumemiWeatherError {
+                                  } on YumemiWeatherError catch (e) {
                                     Future(() async {
                                       await _showErrorDialog(
-                                        message: '原因不明のエラーです',
+                                        message: e.errorDescription(),
                                       );
                                     });
                                   }
