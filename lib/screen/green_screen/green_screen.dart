@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/screen/weather_screen/weather_screen.dart';
+import 'package:flutter_training/utils/after_display_mixin.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
 class GreenScreen extends StatefulWidget {
@@ -9,12 +10,14 @@ class GreenScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _GreenScreenState();
 }
 
-class _GreenScreenState extends State<GreenScreen> {
+class _GreenScreenState extends State<GreenScreen> with AfterDisplayMixin {
   @override
   void initState() {
     super.initState();
     Future(() async {
-      await WidgetsBinding.instance.endOfFrame.then((_) => _toWeatherScreen());
+      await WidgetsBinding.instance.endOfFrame.then((_) {
+        afterDisplay();
+      });
     });
   }
 
@@ -37,5 +40,10 @@ class _GreenScreenState extends State<GreenScreen> {
       );
       await _toWeatherScreen();
     });
+  }
+
+  @override
+  void afterDisplay() {
+    Future(() async => _toWeatherScreen());
   }
 }
