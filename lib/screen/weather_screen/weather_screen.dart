@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_training/data/yumemi_weather_repository.dart';
 import 'package:flutter_training/model/yumemi_weather/request/yumemi_weather_api_request.dart';
 import 'package:flutter_training/model/yumemi_weather/response/yumemi_weather_api_response.dart';
-import 'package:flutter_training/screen/weather_screen/components/condition_icon.dart';
+import 'package:flutter_training/screen/weather_screen/components/weather_detail.dart';
 import 'package:flutter_training/utils/yumemi_weather_error_ex.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
@@ -27,49 +27,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
             children: [
               const Spacer(),
 
-              // Weather icon
-              AspectRatio(
-                aspectRatio: 1,
-                child: _weather == null
-                    ? const Placeholder()
-                    : ConditionIcon(condition: _weather!.weatherCondition),
-              ),
-
-              // Texts
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: DefaultTextStyle(
-                  style: Theme.of(context).textTheme.labelLarge!,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            _weather != null
-                                ? '${_weather!.minTemperature} ℃'
-                                : '** ℃',
-                            style: const TextStyle(
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            _weather != null
-                                ? '${_weather!.maxTemperature} ℃'
-                                : '** ℃',
-                            style: const TextStyle(
-                              color: Colors.red,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              WeatherDetail(weather: _weather),
 
               // Buttons
               Expanded(
