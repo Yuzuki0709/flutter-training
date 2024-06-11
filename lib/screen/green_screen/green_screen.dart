@@ -35,7 +35,7 @@ class _GreenScreenState extends State<GreenScreen> with AfterDisplayMixin {
       await Navigator.push(
         context,
         MaterialPageRoute<void>(
-          builder: (context) => WeatherScreen(yumemiWeather: YumemiWeather()),
+          builder: (context) => const WeatherScreen(),
         ),
       );
       await _toWeatherScreen();
