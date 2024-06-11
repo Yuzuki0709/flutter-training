@@ -6,6 +6,7 @@ part 'yumemi_weather_api_response.g.dart';
 
 @freezed
 class YumemiWeatherApiResponse with _$YumemiWeatherApiResponse {
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory YumemiWeatherApiResponse({
     // 必要フィールドを定義
     required WeatherCondition weatherCondition,

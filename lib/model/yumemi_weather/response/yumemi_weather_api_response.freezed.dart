@@ -142,7 +142,8 @@ class __$$YumemiWeatherApiResponseImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$YumemiWeatherApiResponseImpl implements _YumemiWeatherApiResponse {
   const _$YumemiWeatherApiResponseImpl(
       {required this.weatherCondition,

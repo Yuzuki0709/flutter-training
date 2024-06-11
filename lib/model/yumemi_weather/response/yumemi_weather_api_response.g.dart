@@ -7,23 +7,22 @@ part of 'yumemi_weather_api_response.dart';
 // **************************************************************************
 
 _$YumemiWeatherApiResponseImpl _$$YumemiWeatherApiResponseImplFromJson(
-  Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     _$YumemiWeatherApiResponseImpl(
       weatherCondition:
           $enumDecode(_$WeatherConditionEnumMap, json['weather_condition']),
-      maxTemperature: (json['maxTemperature'] as num).toInt(),
-      minTemperature: (json['minTemperature'] as num).toInt(),
+      maxTemperature: (json['max_temperature'] as num).toInt(),
+      minTemperature: (json['min_temperature'] as num).toInt(),
       date: DateTime.parse(json['date'] as String),
     );
 
 Map<String, dynamic> _$$YumemiWeatherApiResponseImplToJson(
-  _$YumemiWeatherApiResponseImpl instance,
-) =>
+        _$YumemiWeatherApiResponseImpl instance) =>
     <String, dynamic>{
-      'weatherCondition': _$WeatherConditionEnumMap[instance.weatherCondition]!,
-      'maxTemperature': instance.maxTemperature,
-      'minTemperature': instance.minTemperature,
+      'weather_condition':
+          _$WeatherConditionEnumMap[instance.weatherCondition]!,
+      'max_temperature': instance.maxTemperature,
+      'min_temperature': instance.minTemperature,
       'date': instance.date.toIso8601String(),
     };
 
