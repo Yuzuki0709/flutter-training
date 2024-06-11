@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/screen/weather_screen/components/condition_icon.dart';
+import 'package:flutter_training/utils/yumemi_weather_error_ex.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
 class WeatherScreen extends StatefulWidget {
@@ -86,8 +87,16 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             child: TextButton(
                               onPressed: () {
                                 setState(() {
-                                  _condition = widget._yumemiWeather
-                                      .fetchSimpleWeather();
+                                  try {
+                                    _condition = widget._yumemiWeather
+                                        .fetchThrowsWeather('tokyo');
+                                  } on YumemiWeatherError catch (e) {
+                                    Future(() async {
+                                      await _showErrorDialog(
+                                        message: e.errorDescription(),
+                                      );
+                                    });
+                                  }
                                 });
                               },
                               child: const Text('Reload'),
@@ -103,6 +112,33 @@ class _WeatherScreenState extends State<WeatherScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _showErrorDialog({required String message}) {
+    return showDialog(
+      context: context,
+      builder: (context) => _ErrorDialog(message: message),
+    );
+  }
+}
+
+class _ErrorDialog extends StatelessWidget {
+  const _ErrorDialog({required String message}) : _message = message;
+
+  final String _message;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('エラーが発生しました'),
+      content: Text(_message),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 }
