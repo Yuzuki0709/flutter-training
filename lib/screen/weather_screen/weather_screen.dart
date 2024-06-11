@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_training/data/yumemi_weather_repository.dart';
 import 'package:flutter_training/model/yumemi_weather/request/yumemi_weather_api_request.dart';
@@ -29,7 +27,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
             children: [
               const Spacer(),
 
-              // Placeholder
+              // Weather icon
               AspectRatio(
                 aspectRatio: 1,
                 child: _weather == null
