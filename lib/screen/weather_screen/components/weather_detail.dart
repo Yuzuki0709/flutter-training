@@ -34,7 +34,7 @@ class WeatherDetail extends StatelessWidget {
                 _TemperatureText(
                   temperature: _weather?.maxTemperature,
                   color: Colors.red,
-                )
+                ),
               ],
             ),
           ),
