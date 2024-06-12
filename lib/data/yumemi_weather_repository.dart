@@ -8,13 +8,20 @@ import 'package:yumemi_weather/yumemi_weather.dart';
 part 'yumemi_weather_repository.g.dart';
 
 @riverpod
-class YumemiWeatherRepository extends _$YumemiWeatherRepository {
-  late final YumemiWeather _client;
+YumemiWeather yumemiWeather(YumemiWeatherRef ref) {
+  return YumemiWeather();
+}
 
-  @override
-  void build({required YumemiWeather client}) {
-    _client = client;
-  }
+@riverpod
+YumemiWeatherRepository yumemiWeatherRepository(
+  YumemiWeatherRepositoryRef ref,
+) {
+  return YumemiWeatherRepository(client: ref.watch(yumemiWeatherProvider));
+}
+
+class YumemiWeatherRepository {
+  YumemiWeatherRepository({required YumemiWeather client}) : _client = client;
+  final YumemiWeather _client;
 
   YumemiWeatherApiResponse fetchWeather({
     required YumemiWeatherApiRequest request,

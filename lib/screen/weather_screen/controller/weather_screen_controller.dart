@@ -14,9 +14,7 @@ class WeatherScreenController extends _$WeatherScreenController {
   }
 
   void fetchWeather({required YumemiWeatherApiRequest request}) {
-    final yumemiWeatherRepository = ref.read(
-      yumemiWeatherRepositoryProvider(client: YumemiWeather()).notifier,
-    );
+    final yumemiWeatherRepository = ref.read(yumemiWeatherRepositoryProvider);
 
     try {
       state = yumemiWeatherRepository.fetchWeather(request: request);
