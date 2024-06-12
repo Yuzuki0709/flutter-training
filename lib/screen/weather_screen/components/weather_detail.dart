@@ -27,35 +27,44 @@ class WeatherDetail extends StatelessWidget {
             style: Theme.of(context).textTheme.labelLarge!,
             child: Row(
               children: [
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      _weather != null
-                          ? '${_weather.minTemperature} ℃'
-                          : '** ℃',
-                      style: const TextStyle(
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
+                _TemperatureText(
+                  temperature: _weather?.minTemperature,
+                  color: Colors.blue,
                 ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      _weather != null
-                          ? '${_weather.maxTemperature} ℃'
-                          : '** ℃',
-                      style: const TextStyle(
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ),
+                _TemperatureText(
+                  temperature: _weather?.maxTemperature,
+                  color: Colors.red,
+                )
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class _TemperatureText extends StatelessWidget {
+  const _TemperatureText({
+    required int? temperature,
+    required Color color,
+  })  : _temperature = temperature,
+        _color = color;
+
+  final int? _temperature;
+  final Color _color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: Text(
+          '${_temperature ?? '**'} ℃',
+          style: TextStyle(
+            color: _color,
+          ),
+        ),
+      ),
     );
   }
 }
