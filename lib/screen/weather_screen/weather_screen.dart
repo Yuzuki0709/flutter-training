@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/screen/weather_screen/components/condition_icon.dart';
+import 'package:flutter_training/data/yumemi_weather_repository.dart';
+import 'package:flutter_training/model/yumemi_weather/request/yumemi_weather_api_request.dart';
+import 'package:flutter_training/model/yumemi_weather/response/yumemi_weather_api_response.dart';
+import 'package:flutter_training/screen/weather_screen/components/weather_detail.dart';
 import 'package:flutter_training/utils/yumemi_weather_error_ex.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
 class WeatherScreen extends StatefulWidget {
-  const WeatherScreen({required YumemiWeather yumemiWeather, super.key})
-      : _yumemiWeather = yumemiWeather;
-  final YumemiWeather _yumemiWeather;
+  const WeatherScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _WeatherScreenState();
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
-  String? _condition;
+  YumemiWeatherApiResponse? _weather;
+  final _yumemiWeatherRepository = YumemiWeatherRepository(YumemiWeather());
 
   @override
   Widget build(BuildContext context) {
@@ -25,45 +27,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
             children: [
               const Spacer(),
 
-              // Placeholder
-              AspectRatio(
-                aspectRatio: 1,
-                child: _condition == null
-                    ? const Placeholder()
-                    : ConditionIcon(condition: _condition!),
-              ),
-
-              // Texts
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: DefaultTextStyle(
-                  style: Theme.of(context).textTheme.labelLarge!,
-                  child: const Row(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            '** ℃',
-                            style: TextStyle(
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            '** ℃',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              WeatherDetail(weather: _weather),
 
               // Buttons
               Expanded(
@@ -88,8 +52,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               onPressed: () {
                                 setState(() {
                                   try {
-                                    _condition = widget._yumemiWeather
-                                        .fetchThrowsWeather('tokyo');
+                                    final request = YumemiWeatherApiRequest(
+                                      area: 'Tokyo',
+                                      date: DateTime.now(),
+                                    );
+                                    setState(() {
+                                      _weather = _yumemiWeatherRepository
+                                          .fetchWeather(request: request);
+                                    });
                                   } on YumemiWeatherError catch (e) {
                                     Future(() async {
                                       await _showErrorDialog(

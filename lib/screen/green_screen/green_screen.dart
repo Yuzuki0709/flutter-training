@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/screen/weather_screen/weather_screen.dart';
 import 'package:flutter_training/utils/after_display_mixin.dart';
-import 'package:yumemi_weather/yumemi_weather.dart';
 
 class GreenScreen extends StatefulWidget {
   const GreenScreen({super.key});
@@ -35,7 +34,7 @@ class _GreenScreenState extends State<GreenScreen> with AfterDisplayMixin {
       await Navigator.push(
         context,
         MaterialPageRoute<void>(
-          builder: (context) => WeatherScreen(yumemiWeather: YumemiWeather()),
+          builder: (context) => const WeatherScreen(),
         ),
       );
       await _toWeatherScreen();
