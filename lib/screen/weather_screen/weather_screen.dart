@@ -12,7 +12,6 @@ class WeatherScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(weatherScreenControllerProvider);
-    final notifier = ref.read(weatherScreenControllerProvider.notifier);
 
     return Scaffold(
       body: Center(
@@ -51,7 +50,12 @@ class WeatherScreen extends ConsumerWidget {
                                 );
 
                                 try {
-                                  notifier.fetchWeather(request: request);
+                                  ref
+                                      .read(
+                                        weatherScreenControllerProvider
+                                            .notifier,
+                                      )
+                                      .fetchWeather(request: request);
                                 } on YumemiWeatherError catch (e) {
                                   Future(() async {
                                     await showDialog<void>(
