@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_training/screen/green_screen/green_screen.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    const ProviderScope(
+      child: MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {

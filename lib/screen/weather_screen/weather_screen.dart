@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/data/yumemi_weather_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_training/model/yumemi_weather/request/yumemi_weather_api_request.dart';
-import 'package:flutter_training/model/yumemi_weather/response/yumemi_weather_api_response.dart';
 import 'package:flutter_training/screen/weather_screen/components/weather_detail.dart';
+import 'package:flutter_training/screen/weather_screen/controller/weather_screen_controller.dart';
 import 'package:flutter_training/utils/yumemi_weather_error_ex.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
-class WeatherScreen extends StatefulWidget {
+class WeatherScreen extends ConsumerWidget {
   const WeatherScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _WeatherScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final weather = ref.watch(weatherScreenControllerProvider);
 
-class _WeatherScreenState extends State<WeatherScreen> {
-  YumemiWeatherApiResponse? _weather;
-  final _yumemiWeatherRepository = YumemiWeatherRepository(YumemiWeather());
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: FractionallySizedBox(
@@ -27,7 +21,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
             children: [
               const Spacer(),
 
-              WeatherDetail(weather: _weather),
+              WeatherDetail(weather: weather),
 
               // Buttons
               Expanded(
@@ -50,24 +44,28 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           child: Center(
                             child: TextButton(
                               onPressed: () {
-                                setState(() {
-                                  try {
-                                    final request = YumemiWeatherApiRequest(
-                                      area: 'Tokyo',
-                                      date: DateTime.now(),
-                                    );
-                                    setState(() {
-                                      _weather = _yumemiWeatherRepository
-                                          .fetchWeather(request: request);
-                                    });
-                                  } on YumemiWeatherError catch (e) {
-                                    Future(() async {
-                                      await _showErrorDialog(
+                                final request = YumemiWeatherApiRequest(
+                                  area: 'Tokyo',
+                                  date: DateTime.now(),
+                                );
+
+                                try {
+                                  ref
+                                      .read(
+                                        weatherScreenControllerProvider
+                                            .notifier,
+                                      )
+                                      .fetchWeather(request: request);
+                                } on YumemiWeatherError catch (e) {
+                                  Future(() async {
+                                    await showDialog<void>(
+                                      context: context,
+                                      builder: (context) => _ErrorDialog(
                                         message: e.errorDescription(),
-                                      );
-                                    });
-                                  }
-                                });
+                                      ),
+                                    );
+                                  });
+                                }
                               },
                               child: const Text('Reload'),
                             ),
@@ -82,13 +80,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Future<void> _showErrorDialog({required String message}) {
-    return showDialog(
-      context: context,
-      builder: (context) => _ErrorDialog(message: message),
     );
   }
 }

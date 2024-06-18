@@ -2,10 +2,25 @@ import 'dart:convert';
 
 import 'package:flutter_training/model/yumemi_weather/request/yumemi_weather_api_request.dart';
 import 'package:flutter_training/model/yumemi_weather/response/yumemi_weather_api_response.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
+part 'yumemi_weather_repository.g.dart';
+
+@riverpod
+YumemiWeather yumemiWeather(YumemiWeatherRef ref) {
+  return YumemiWeather();
+}
+
+@riverpod
+YumemiWeatherRepository yumemiWeatherRepository(
+  YumemiWeatherRepositoryRef ref,
+) {
+  return YumemiWeatherRepository(client: ref.watch(yumemiWeatherProvider));
+}
+
 class YumemiWeatherRepository {
-  YumemiWeatherRepository(this._client);
+  YumemiWeatherRepository({required YumemiWeather client}) : _client = client;
   final YumemiWeather _client;
 
   YumemiWeatherApiResponse fetchWeather({
