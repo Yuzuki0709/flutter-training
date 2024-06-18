@@ -31,4 +31,4 @@ flowchart TB
   weatherScreenControllerProvider ==> WeatherScreen;
   weatherScreenControllerProvider -.-> WeatherScreen;
   yumemiWeatherProvider ==> yumemiWeatherRepositoryProvider;
-```
+  yumemiWeatherRepositoryProvider -.-> weatherScreenControllerProvider
