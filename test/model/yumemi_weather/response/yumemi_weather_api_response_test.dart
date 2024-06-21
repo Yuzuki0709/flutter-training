@@ -6,9 +6,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('from json', () {
-    test('sucess', () {
-      const jsonData = '''
+  group('When fromJson is called', () {
+    group('and in case json is valid', () {
+      test('will return YumemiWeatherApiResponse', () {
+        const jsonData = '''
             {
               "weather_condition": "sunny",
               "max_temperature": 30,
@@ -17,22 +18,24 @@ void main() {
             }
             ''';
 
-      final data = jsonDecode(jsonData) as Map<String, dynamic>;
-      final result = YumemiWeatherApiResponse.fromJson(data);
+        final data = jsonDecode(jsonData) as Map<String, dynamic>;
+        final result = YumemiWeatherApiResponse.fromJson(data);
 
-      expect(
-        result,
-        YumemiWeatherApiResponse(
-          weatherCondition: WeatherCondition.sunny,
-          maxTemperature: 30,
-          minTemperature: 15,
-          date: DateTime(2024, 6, 20),
-        ),
-      );
+        expect(
+          result,
+          YumemiWeatherApiResponse(
+            weatherCondition: WeatherCondition.sunny,
+            maxTemperature: 30,
+            minTemperature: 15,
+            date: DateTime(2024, 6, 20),
+          ),
+        );
+      });
     });
 
-    test('invalid parameter', () {
-      const jsonData = '''
+    group('and in case json parameter is invalid', () {
+      test('will return CheckedFromJsonException', () {
+        const jsonData = '''
             {
               "weather_condition": "aho",
               "max_temperature": 30,
@@ -41,18 +44,20 @@ void main() {
             }
             ''';
 
-      final data = jsonDecode(jsonData) as Map<String, dynamic>;
+        final data = jsonDecode(jsonData) as Map<String, dynamic>;
 
-      expect(
-        () => YumemiWeatherApiResponse.fromJson(data),
-        throwsA(
-          isA<CheckedFromJsonException>(),
-        ),
-      );
+        expect(
+          () => YumemiWeatherApiResponse.fromJson(data),
+          throwsA(
+            isA<CheckedFromJsonException>(),
+          ),
+        );
+      });
     });
 
-    test('invalid key', () {
-      const jsonData = '''
+    group('and in case json key is invalid', () {
+      test('will return CheckedFromJsonException', () {
+        const jsonData = '''
             {
               "hoge": "sunny",
               "max_temperature": 30,
@@ -61,14 +66,15 @@ void main() {
             }
             ''';
 
-      final data = jsonDecode(jsonData) as Map<String, dynamic>;
+        final data = jsonDecode(jsonData) as Map<String, dynamic>;
 
-      expect(
-        () => YumemiWeatherApiResponse.fromJson(data),
-        throwsA(
-          isA<CheckedFromJsonException>(),
-        ),
-      );
+        expect(
+          () => YumemiWeatherApiResponse.fromJson(data),
+          throwsA(
+            isA<CheckedFromJsonException>(),
+          ),
+        );
+      });
     });
   });
 }
