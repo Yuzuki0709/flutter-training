@@ -30,11 +30,17 @@ void main() {
     reset(yumemiWeather);
   });
 
-  ProviderContainer createContainer() => ProviderContainer(
-        overrides: [
-          yumemiWeatherProvider.overrideWithValue(yumemiWeather),
-        ],
-      );
+  ProviderContainer createContainer() {
+    final container = ProviderContainer(
+      overrides: [
+        yumemiWeatherProvider.overrideWithValue(yumemiWeather),
+      ],
+    );
+
+    addTearDown(container.dispose);
+
+    return container;
+  }
 
   group('When fetchWeather is called', () {
     group('and in case request is valid', () {

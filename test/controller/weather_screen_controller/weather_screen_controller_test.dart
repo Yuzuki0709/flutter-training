@@ -28,11 +28,17 @@ void main() {
     reset(mockRepository);
   });
 
-  ProviderContainer createContainer() => ProviderContainer(
-        overrides: [
-          yumemiWeatherRepositoryProvider.overrideWithValue(mockRepository),
-        ],
-      );
+  ProviderContainer createContainer() {
+    final container = ProviderContainer(
+      overrides: [
+        yumemiWeatherRepositoryProvider.overrideWithValue(mockRepository),
+      ],
+    );
+
+    addTearDown(container.dispose);
+
+    return container;
+  }
 
   group('When fetchWeather is called', () {
     group('and in case request is valid', () {
