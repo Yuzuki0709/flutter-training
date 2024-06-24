@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_training/data/yumemi_weather_repository.dart';
 import 'package:flutter_training/model/weather_condition.dart';
 import 'package:flutter_training/model/yumemi_weather/request/yumemi_weather_api_request.dart';
@@ -8,6 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
+import '../../utils/create_container.dart';
 import 'yumemi_weather_repository_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<YumemiWeather>()])
@@ -30,18 +30,6 @@ void main() {
     reset(yumemiWeather);
   });
 
-  ProviderContainer createContainer() {
-    final container = ProviderContainer(
-      overrides: [
-        yumemiWeatherProvider.overrideWithValue(yumemiWeather),
-      ],
-    );
-
-    addTearDown(container.dispose);
-
-    return container;
-  }
-
   group('When fetchWeather is called', () {
     group('and in case request is valid', () {
       test('will return YumemiWeatherApiResponse', () {
@@ -51,7 +39,9 @@ void main() {
           (_) => jsonData,
         );
 
-        final container = createContainer();
+        final container = createContainer([
+          yumemiWeatherProvider.overrideWithValue(yumemiWeather),
+        ]);
         final result = container
             .read(yumemiWeatherRepositoryProvider)
             .fetchWeather(request: request);
@@ -76,7 +66,9 @@ void main() {
           yumemiWeather.fetchWeather(any),
         ).thenThrow(YumemiWeatherError.unknown);
 
-        final container = createContainer();
+        final container = createContainer([
+          yumemiWeatherProvider.overrideWithValue(yumemiWeather),
+        ]);
 
         expect(
           () => container
@@ -99,7 +91,9 @@ void main() {
           yumemiWeather.fetchWeather(any),
         ).thenThrow(YumemiWeatherError.invalidParameter);
 
-        final container = createContainer();
+        final container = createContainer([
+          yumemiWeatherProvider.overrideWithValue(yumemiWeather),
+        ]);
 
         expect(
           () => container

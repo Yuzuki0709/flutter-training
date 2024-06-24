@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_training/data/yumemi_weather_repository.dart';
 import 'package:flutter_training/model/weather_condition.dart';
 import 'package:flutter_training/model/yumemi_weather/request/yumemi_weather_api_request.dart';
@@ -8,6 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
+import '../../utils/create_container.dart';
 import 'weather_screen_controller_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<YumemiWeatherRepository>()])
@@ -28,18 +28,6 @@ void main() {
     reset(mockRepository);
   });
 
-  ProviderContainer createContainer() {
-    final container = ProviderContainer(
-      overrides: [
-        yumemiWeatherRepositoryProvider.overrideWithValue(mockRepository),
-      ],
-    );
-
-    addTearDown(container.dispose);
-
-    return container;
-  }
-
   group('When fetchWeather is called', () {
     group('and in case request is valid', () {
       test('will return YumemiWeatherApiResponse', () {
@@ -47,7 +35,9 @@ void main() {
           mockRepository.fetchWeather(request: request),
         ).thenAnswer((_) => response);
 
-        final container = createContainer();
+        final container = createContainer([
+          yumemiWeatherRepositoryProvider.overrideWithValue(mockRepository),
+        ]);
         final result = container
             .read(yumemiWeatherRepositoryProvider)
             .fetchWeather(request: request);
@@ -63,7 +53,9 @@ void main() {
           mockRepository.fetchWeather(request: request),
         ).thenThrow(YumemiWeatherError.unknown);
 
-        final container = createContainer();
+        final container = createContainer([
+          yumemiWeatherRepositoryProvider.overrideWithValue(mockRepository),
+        ]);
 
         expect(
           () => container
@@ -88,7 +80,9 @@ void main() {
           YumemiWeatherError.invalidParameter,
         );
 
-        final container = createContainer();
+        final container = createContainer([
+          yumemiWeatherRepositoryProvider.overrideWithValue(mockRepository),
+        ]);
 
         expect(
           () => container
