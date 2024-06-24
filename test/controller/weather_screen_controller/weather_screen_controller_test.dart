@@ -2,6 +2,7 @@ import 'package:flutter_training/data/yumemi_weather_repository.dart';
 import 'package:flutter_training/model/weather_condition.dart';
 import 'package:flutter_training/model/yumemi_weather/request/yumemi_weather_api_request.dart';
 import 'package:flutter_training/model/yumemi_weather/response/yumemi_weather_api_response.dart';
+import 'package:flutter_training/screen/weather_screen/controller/weather_screen_controller.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
@@ -38,12 +39,13 @@ void main() {
         final container = createContainer([
           yumemiWeatherRepositoryProvider.overrideWithValue(mockRepository),
         ]);
-        final result = container
-            .read(yumemiWeatherRepositoryProvider)
+
+        container
+            .read(weatherScreenControllerProvider.notifier)
             .fetchWeather(request: request);
 
         expect(
-          result,
+          container.read(weatherScreenControllerProvider),
           isA<YumemiWeatherApiResponse>()
               .having((weather) => weather, 'weather data', response),
         );
@@ -59,7 +61,7 @@ void main() {
 
         expect(
           () => container
-              .read(yumemiWeatherRepositoryProvider)
+              .read(weatherScreenControllerProvider.notifier)
               .fetchWeather(request: request),
           throwsA(
             isA<YumemiWeatherError>().having(
@@ -86,7 +88,7 @@ void main() {
 
         expect(
           () => container
-              .read(yumemiWeatherRepositoryProvider)
+              .read(weatherScreenControllerProvider.notifier)
               .fetchWeather(request: request),
           throwsA(
             isA<YumemiWeatherError>().having(
