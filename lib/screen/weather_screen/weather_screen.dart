@@ -33,6 +33,7 @@ class WeatherScreen extends ConsumerWidget {
                         Expanded(
                           child: Center(
                             child: TextButton(
+                              key: const Key('Close'),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
@@ -43,6 +44,7 @@ class WeatherScreen extends ConsumerWidget {
                         Expanded(
                           child: Center(
                             child: TextButton(
+                              key: const Key('Reload'),
                               onPressed: () {
                                 final request = YumemiWeatherApiRequest(
                                   area: 'Tokyo',
