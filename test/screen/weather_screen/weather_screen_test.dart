@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_training/data/yumemi_weather_repository.dart';
-import 'package:flutter_training/gen/assets.gen.dart';
-import 'package:flutter_training/model/weather_condition.dart';
 import 'package:flutter_training/screen/weather_screen/weather_screen.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../data/yumemi_weather_repository/yumemi_weather_repository_test.mocks.dart';
+import '../../utils/set_surface_size.dart';
 
 void main() {
   final yumemiWeather = MockYumemiWeather();
@@ -63,9 +61,7 @@ void main() {
       (_) => sunnyJsonData,
     );
 
-    final binding = TestWidgetsFlutterBinding.ensureInitialized();
-    await binding.setSurfaceSize(const Size(1080, 1920));
-
+    await setSurfaceSize();
     await pumpWeatherScreen(tester);
 
     expect(find.byType(Placeholder), findsOneWidget);
@@ -86,9 +82,7 @@ void main() {
       (_) => cloudyJsonData,
     );
 
-    final binding = TestWidgetsFlutterBinding.ensureInitialized();
-    await binding.setSurfaceSize(const Size(1080, 1920));
-
+    await setSurfaceSize();
     await pumpWeatherScreen(tester);
 
     expect(find.byType(Placeholder), findsOneWidget);
@@ -109,9 +103,7 @@ void main() {
       (_) => rainyJsonData,
     );
 
-    final binding = TestWidgetsFlutterBinding.ensureInitialized();
-    await binding.setSurfaceSize(const Size(1080, 1920));
-
+    await setSurfaceSize();
     await pumpWeatherScreen(tester);
 
     expect(find.byType(Placeholder), findsOneWidget);
