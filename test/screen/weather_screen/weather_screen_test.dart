@@ -21,6 +21,15 @@ void main() {
         }
         ''';
 
+  const cloudyJsonData = '''
+        {
+          "weather_condition": "cloudy",
+          "max_temperature": 20, 
+          "min_temperature": 10,
+          "date": "2024-06-19T00:00:00.000"
+        }
+        ''';
+
   setUp(() {
     reset(yumemiWeather);
   });
@@ -59,5 +68,28 @@ void main() {
     expect(find.text('30 ℃'), findsOneWidget);
     expect(find.text('15 ℃'), findsOneWidget);
     expect(find.bySemanticsLabel('SunnyIcon'), findsOneWidget);
+  });
+
+  testWidgets('Display clody weather icon', (tester) async {
+    when(
+      yumemiWeather.fetchWeather(any),
+    ).thenAnswer(
+      (_) => cloudyJsonData,
+    );
+
+    final binding = TestWidgetsFlutterBinding.ensureInitialized();
+    await binding.setSurfaceSize(const Size(1080, 1920));
+
+    await pumpWeatherScreen(tester);
+
+    expect(find.byType(Placeholder), findsOneWidget);
+    expect(find.text('** ℃'), findsNWidgets(2));
+
+    await tester.tap(find.byKey(const Key('Reload')));
+    await tester.pump();
+
+    expect(find.text('20 ℃'), findsOneWidget);
+    expect(find.text('10 ℃'), findsOneWidget);
+    expect(find.bySemanticsLabel('CloudyIcon'), findsOneWidget);
   });
 }
