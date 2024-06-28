@@ -68,7 +68,7 @@ void main() {
         expect(find.byType(Placeholder), findsOneWidget);
         expect(find.text('** ℃'), findsNWidgets(2));
 
-        await tester.tap(find.byKey(const Key('Reload')));
+        await tester.tap(find.byKey(WeatherScreen.reloadButtonKey));
         await tester.pump();
 
         expect(find.text('30 ℃'), findsOneWidget);
@@ -89,7 +89,7 @@ void main() {
         expect(find.byType(Placeholder), findsOneWidget);
         expect(find.text('** ℃'), findsNWidgets(2));
 
-        await tester.tap(find.byKey(const Key('Reload')));
+        await tester.tap(find.byKey(WeatherScreen.reloadButtonKey));
         await tester.pump();
 
         expect(find.text('20 ℃'), findsOneWidget);
@@ -110,7 +110,7 @@ void main() {
         expect(find.byType(Placeholder), findsOneWidget);
         expect(find.text('** ℃'), findsNWidgets(2));
 
-        await tester.tap(find.byKey(const Key('Reload')));
+        await tester.tap(find.byKey(WeatherScreen.reloadButtonKey));
         await tester.pump();
 
         expect(find.text('10 ℃'), findsOneWidget);
@@ -130,7 +130,7 @@ void main() {
         await setSurfaceSize();
         await pumpWeatherScreen(tester);
 
-        await tester.tap(find.byKey(const Key('Reload')));
+        await tester.tap(find.byKey(WeatherScreen.reloadButtonKey));
         await tester.pumpAndSettle();
 
         expect(

@@ -9,6 +9,9 @@ import 'package:yumemi_weather/yumemi_weather.dart';
 class WeatherScreen extends ConsumerWidget {
   const WeatherScreen({super.key});
 
+  @visibleForTesting
+  static final reloadButtonKey = UniqueKey();
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final weather = ref.watch(weatherScreenControllerProvider);
@@ -44,7 +47,7 @@ class WeatherScreen extends ConsumerWidget {
                         Expanded(
                           child: Center(
                             child: TextButton(
-                              key: const Key('Reload'),
+                              key: reloadButtonKey,
                               onPressed: () {
                                 final request = YumemiWeatherApiRequest(
                                   area: 'Tokyo',
