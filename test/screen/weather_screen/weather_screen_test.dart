@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_training/data/yumemi_weather_repository.dart';
 import 'package:flutter_training/screen/weather_screen/weather_screen.dart';
@@ -8,6 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
 import '../../data/yumemi_weather_repository/yumemi_weather_repository_test.mocks.dart';
+import '../../utils/pump_screen.dart';
 import '../../utils/set_surface_size.dart';
 
 void main() {
@@ -44,15 +44,12 @@ void main() {
   });
 
   Future<void> pumpWeatherScreen(WidgetTester tester) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          yumemiWeatherProvider.overrideWithValue(yumemiWeather),
-        ],
-        child: const MaterialApp(
-          home: WeatherScreen(),
-        ),
-      ),
+    await pumpScreen(
+      tester,
+      [
+        yumemiWeatherProvider.overrideWithValue(yumemiWeather),
+      ],
+      const WeatherScreen(),
     );
   }
 
