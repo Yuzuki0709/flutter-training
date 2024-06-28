@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_training/data/yumemi_weather_repository.dart';
+import 'package:flutter_training/model/weather_condition.dart';
 import 'package:flutter_training/screen/weather_screen/weather_screen.dart';
 import 'package:flutter_training/utils/yumemi_weather_error_ex.dart';
 import 'package:mockito/mockito.dart';
@@ -73,7 +74,10 @@ void main() {
 
         expect(find.text('30 ℃'), findsOneWidget);
         expect(find.text('15 ℃'), findsOneWidget);
-        expect(find.bySemanticsLabel('SunnyIcon'), findsOneWidget);
+        expect(
+          find.bySemanticsLabel(WeatherConditionEx.sunnyLabel),
+          findsOneWidget,
+        );
       });
 
       testWidgets('will display clody weather icon.', (tester) async {
@@ -94,7 +98,10 @@ void main() {
 
         expect(find.text('20 ℃'), findsOneWidget);
         expect(find.text('10 ℃'), findsOneWidget);
-        expect(find.bySemanticsLabel('CloudyIcon'), findsOneWidget);
+        expect(
+          find.bySemanticsLabel(WeatherConditionEx.cloudyLabel),
+          findsOneWidget,
+        );
       });
 
       testWidgets('will display rainy weather icon.', (tester) async {
@@ -115,7 +122,10 @@ void main() {
 
         expect(find.text('10 ℃'), findsOneWidget);
         expect(find.text('5 ℃'), findsOneWidget);
-        expect(find.bySemanticsLabel('RainyIcon'), findsOneWidget);
+        expect(
+          find.bySemanticsLabel(WeatherConditionEx.rainyLabel),
+          findsOneWidget,
+        );
       });
     });
 
