@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_training/data/yumemi_weather_repository.dart';
 import 'package:flutter_training/screen/weather_screen/weather_screen.dart';
+import 'package:flutter_training/utils/yumemi_weather_error_ex.dart';
 import 'package:mockito/mockito.dart';
+import 'package:yumemi_weather/yumemi_weather.dart';
 
 import '../../data/yumemi_weather_repository/yumemi_weather_repository_test.mocks.dart';
 import '../../utils/set_surface_size.dart';
@@ -115,5 +117,38 @@ void main() {
     expect(find.text('10 ℃'), findsOneWidget);
     expect(find.text('5 ℃'), findsOneWidget);
     expect(find.bySemanticsLabel('RainyIcon'), findsOneWidget);
+  });
+
+  testWidgets('Display error dialog', (tester) async {
+    when(
+      yumemiWeather.fetchWeather(any),
+    ).thenThrow(
+      YumemiWeatherError.unknown,
+    );
+
+    await setSurfaceSize();
+    await pumpWeatherScreen(tester);
+
+    await tester.tap(find.byKey(const Key('Reload')));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.widgetWithText(
+        AlertDialog,
+        YumemiWeatherError.unknown.errorDescription(),
+      ),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.widgetWithText(
+        AlertDialog,
+        YumemiWeatherError.unknown.errorDescription(),
+      ),
+      findsNothing,
+    );
   });
 }
