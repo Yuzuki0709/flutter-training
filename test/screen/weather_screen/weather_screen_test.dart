@@ -56,99 +56,105 @@ void main() {
     );
   }
 
-  testWidgets('Display sunny weather icon', (tester) async {
-    when(
-      yumemiWeather.fetchWeather(any),
-    ).thenAnswer(
-      (_) => sunnyJsonData,
-    );
+  group('When fetchWeather is called', () {
+    group('and in case valid respone', () {
+      testWidgets('will display sunny weather icon.', (tester) async {
+        when(
+          yumemiWeather.fetchWeather(any),
+        ).thenAnswer(
+          (_) => sunnyJsonData,
+        );
 
-    await setSurfaceSize();
-    await pumpWeatherScreen(tester);
+        await setSurfaceSize();
+        await pumpWeatherScreen(tester);
 
-    expect(find.byType(Placeholder), findsOneWidget);
-    expect(find.text('** ℃'), findsNWidgets(2));
+        expect(find.byType(Placeholder), findsOneWidget);
+        expect(find.text('** ℃'), findsNWidgets(2));
 
-    await tester.tap(find.byKey(const Key('Reload')));
-    await tester.pump();
+        await tester.tap(find.byKey(const Key('Reload')));
+        await tester.pump();
 
-    expect(find.text('30 ℃'), findsOneWidget);
-    expect(find.text('15 ℃'), findsOneWidget);
-    expect(find.bySemanticsLabel('SunnyIcon'), findsOneWidget);
-  });
+        expect(find.text('30 ℃'), findsOneWidget);
+        expect(find.text('15 ℃'), findsOneWidget);
+        expect(find.bySemanticsLabel('SunnyIcon'), findsOneWidget);
+      });
 
-  testWidgets('Display clody weather icon', (tester) async {
-    when(
-      yumemiWeather.fetchWeather(any),
-    ).thenAnswer(
-      (_) => cloudyJsonData,
-    );
+      testWidgets('will display clody weather icon.', (tester) async {
+        when(
+          yumemiWeather.fetchWeather(any),
+        ).thenAnswer(
+          (_) => cloudyJsonData,
+        );
 
-    await setSurfaceSize();
-    await pumpWeatherScreen(tester);
+        await setSurfaceSize();
+        await pumpWeatherScreen(tester);
 
-    expect(find.byType(Placeholder), findsOneWidget);
-    expect(find.text('** ℃'), findsNWidgets(2));
+        expect(find.byType(Placeholder), findsOneWidget);
+        expect(find.text('** ℃'), findsNWidgets(2));
 
-    await tester.tap(find.byKey(const Key('Reload')));
-    await tester.pump();
+        await tester.tap(find.byKey(const Key('Reload')));
+        await tester.pump();
 
-    expect(find.text('20 ℃'), findsOneWidget);
-    expect(find.text('10 ℃'), findsOneWidget);
-    expect(find.bySemanticsLabel('CloudyIcon'), findsOneWidget);
-  });
+        expect(find.text('20 ℃'), findsOneWidget);
+        expect(find.text('10 ℃'), findsOneWidget);
+        expect(find.bySemanticsLabel('CloudyIcon'), findsOneWidget);
+      });
 
-  testWidgets('Display rainy weather icon', (tester) async {
-    when(
-      yumemiWeather.fetchWeather(any),
-    ).thenAnswer(
-      (_) => rainyJsonData,
-    );
+      testWidgets('will display rainy weather icon.', (tester) async {
+        when(
+          yumemiWeather.fetchWeather(any),
+        ).thenAnswer(
+          (_) => rainyJsonData,
+        );
 
-    await setSurfaceSize();
-    await pumpWeatherScreen(tester);
+        await setSurfaceSize();
+        await pumpWeatherScreen(tester);
 
-    expect(find.byType(Placeholder), findsOneWidget);
-    expect(find.text('** ℃'), findsNWidgets(2));
+        expect(find.byType(Placeholder), findsOneWidget);
+        expect(find.text('** ℃'), findsNWidgets(2));
 
-    await tester.tap(find.byKey(const Key('Reload')));
-    await tester.pump();
+        await tester.tap(find.byKey(const Key('Reload')));
+        await tester.pump();
 
-    expect(find.text('10 ℃'), findsOneWidget);
-    expect(find.text('5 ℃'), findsOneWidget);
-    expect(find.bySemanticsLabel('RainyIcon'), findsOneWidget);
-  });
+        expect(find.text('10 ℃'), findsOneWidget);
+        expect(find.text('5 ℃'), findsOneWidget);
+        expect(find.bySemanticsLabel('RainyIcon'), findsOneWidget);
+      });
+    });
 
-  testWidgets('Display error dialog', (tester) async {
-    when(
-      yumemiWeather.fetchWeather(any),
-    ).thenThrow(
-      YumemiWeatherError.unknown,
-    );
+    group('and in case error response', () {
+      testWidgets('will display error dialog.', (tester) async {
+        when(
+          yumemiWeather.fetchWeather(any),
+        ).thenThrow(
+          YumemiWeatherError.unknown,
+        );
 
-    await setSurfaceSize();
-    await pumpWeatherScreen(tester);
+        await setSurfaceSize();
+        await pumpWeatherScreen(tester);
 
-    await tester.tap(find.byKey(const Key('Reload')));
-    await tester.pumpAndSettle();
+        await tester.tap(find.byKey(const Key('Reload')));
+        await tester.pumpAndSettle();
 
-    expect(
-      find.widgetWithText(
-        AlertDialog,
-        YumemiWeatherError.unknown.errorDescription(),
-      ),
-      findsOneWidget,
-    );
+        expect(
+          find.widgetWithText(
+            AlertDialog,
+            YumemiWeatherError.unknown.errorDescription(),
+          ),
+          findsOneWidget,
+        );
 
-    await tester.tap(find.text('OK'));
-    await tester.pumpAndSettle();
+        await tester.tap(find.text('OK'));
+        await tester.pumpAndSettle();
 
-    expect(
-      find.widgetWithText(
-        AlertDialog,
-        YumemiWeatherError.unknown.errorDescription(),
-      ),
-      findsNothing,
-    );
+        expect(
+          find.widgetWithText(
+            AlertDialog,
+            YumemiWeatherError.unknown.errorDescription(),
+          ),
+          findsNothing,
+        );
+      });
+    });
   });
 }
