@@ -22,4 +22,14 @@ class WeatherScreenController extends _$WeatherScreenController {
       rethrow;
     }
   }
+
+  void syncFetchWeather({required YumemiWeatherApiRequest request}) {
+    final yumemiWeatherRepository = ref.read(yumemiWeatherRepositoryProvider);
+
+    try {
+      state = yumemiWeatherRepository.syncFetchWeather(request: request);
+    } on YumemiWeatherError {
+      rethrow;
+    }
+  }
 }
