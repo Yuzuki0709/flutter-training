@@ -65,4 +65,31 @@ class MockYumemiWeatherRepository extends _i1.Mock
           ),
         ),
       ) as _i2.YumemiWeatherApiResponse);
+
+  @override
+  _i2.YumemiWeatherApiResponse syncFetchWeather(
+          {required _i4.YumemiWeatherApiRequest? request}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #syncFetchWeather,
+          [],
+          {#request: request},
+        ),
+        returnValue: _FakeYumemiWeatherApiResponse_0(
+          this,
+          Invocation.method(
+            #syncFetchWeather,
+            [],
+            {#request: request},
+          ),
+        ),
+        returnValueForMissingStub: _FakeYumemiWeatherApiResponse_0(
+          this,
+          Invocation.method(
+            #syncFetchWeather,
+            [],
+            {#request: request},
+          ),
+        ),
+      ) as _i2.YumemiWeatherApiResponse);
 }

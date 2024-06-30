@@ -35,4 +35,17 @@ class YumemiWeatherRepository {
       rethrow;
     }
   }
+
+  YumemiWeatherApiResponse syncFetchWeather({
+    required YumemiWeatherApiRequest request,
+  }) {
+    try {
+      final result = _client.syncFetchWeather(jsonEncode(request.toJson()));
+      return YumemiWeatherApiResponse.fromJson(
+        jsonDecode(result) as Map<String, dynamic>,
+      );
+    } on YumemiWeatherError {
+      rethrow;
+    }
+  }
 }
