@@ -14,7 +14,7 @@ class WeatherScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final weather = ref.watch(weatherScreenControllerProvider);
+    final state = ref.watch(weatherScreenControllerProvider);
 
     return Scaffold(
       body: Center(
@@ -24,7 +24,7 @@ class WeatherScreen extends ConsumerWidget {
             children: [
               const Spacer(),
 
-              WeatherDetail(weather: weather),
+              WeatherDetail(weather: state.response),
 
               // Buttons
               Expanded(
