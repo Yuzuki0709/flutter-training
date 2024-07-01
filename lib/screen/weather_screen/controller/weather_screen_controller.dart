@@ -39,6 +39,7 @@ class WeatherScreenController extends _$WeatherScreenController {
           await compute(yumemiWeatherRepository.syncFetchWeather, request);
       state = state.copyWith(response: response, isLoading: false);
     } on YumemiWeatherError {
+      state = state.copyWith(isLoading: false);
       rethrow;
     }
   }
