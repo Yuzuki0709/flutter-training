@@ -36,9 +36,9 @@ class YumemiWeatherRepository {
     }
   }
 
-  YumemiWeatherApiResponse syncFetchWeather({
-    required YumemiWeatherApiRequest request,
-  }) {
+  Future<YumemiWeatherApiResponse> syncFetchWeather(
+    YumemiWeatherApiRequest request,
+  ) async {
     try {
       final result = _client.syncFetchWeather(jsonEncode(request.toJson()));
       return YumemiWeatherApiResponse.fromJson(

@@ -7,7 +7,7 @@ part of 'weather_screen_controller.dart';
 // **************************************************************************
 
 String _$weatherScreenControllerHash() =>
-    r'00b1b98d559233a18cec22a249de589bdb0eb222';
+    r'25b651f58ae1c36232189db4776571c96e94cd9f';
 
 /// See also [WeatherScreenController].
 @ProviderFor(WeatherScreenController)
