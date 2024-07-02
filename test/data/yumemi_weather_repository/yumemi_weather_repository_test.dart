@@ -110,4 +110,85 @@ void main() {
       });
     });
   });
+
+  group('When syncFetchWeather is called', () {
+    group('and in case request is valid', () {
+      test('will return YumemiWeatherApiResponse', () async {
+        when(
+          yumemiWeather.syncFetchWeather(any),
+        ).thenAnswer(
+          (_) => jsonData,
+        );
+
+        final container = createContainer([
+          yumemiWeatherProvider.overrideWithValue(yumemiWeather),
+        ]);
+        final result = await container
+            .read(yumemiWeatherRepositoryProvider)
+            .syncFetchWeather(request);
+
+        expect(
+          result,
+          isA<YumemiWeatherApiResponse>().having(
+            (weather) => weather,
+            'Weather data',
+            YumemiWeatherApiResponse(
+              weatherCondition: WeatherCondition.sunny,
+              maxTemperature: 30,
+              minTemperature: 15,
+              date: DateTime(2024, 6, 19),
+            ),
+          ),
+        );
+      });
+
+      test('will return unkown error', () async {
+        when(
+          yumemiWeather.syncFetchWeather(any),
+        ).thenThrow(YumemiWeatherError.unknown);
+
+        final container = createContainer([
+          yumemiWeatherProvider.overrideWithValue(yumemiWeather),
+        ]);
+
+        expect(
+          () => container
+              .read(yumemiWeatherRepositoryProvider)
+              .syncFetchWeather(request),
+          throwsA(
+            isA<YumemiWeatherError>().having(
+              (error) => error,
+              'error',
+              YumemiWeatherError.unknown,
+            ),
+          ),
+        );
+      });
+    });
+
+    group('and in case requets is invalid', () {
+      test('will return invalid parameter error', () async {
+        when(
+          yumemiWeather.syncFetchWeather(any),
+        ).thenThrow(YumemiWeatherError.invalidParameter);
+
+        final container = createContainer([
+          yumemiWeatherProvider.overrideWithValue(yumemiWeather),
+        ]);
+
+        expect(
+          () => container
+              .read(yumemiWeatherRepositoryProvider)
+              .syncFetchWeather(request),
+          throwsA(
+            isA<YumemiWeatherError>().having(
+              (error) => error,
+              'error',
+              YumemiWeatherError.invalidParameter,
+            ),
+          ),
+        );
+      });
+    });
+  });
 }
