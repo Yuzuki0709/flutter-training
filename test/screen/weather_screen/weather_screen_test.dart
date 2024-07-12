@@ -1,44 +1,42 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_training/data/yumemi_weather_repository.dart';
 import 'package:flutter_training/model/weather_condition.dart';
+import 'package:flutter_training/model/yumemi_weather/response/yumemi_weather_api_response.dart';
 import 'package:flutter_training/screen/weather_screen/weather_screen.dart';
 import 'package:flutter_training/utils/yumemi_weather_error_ex.dart';
 import 'package:mockito/mockito.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
-import '../../data/yumemi_weather_repository/yumemi_weather_repository_test.mocks.dart';
+import '../../controller/weather_screen_controller/weather_screen_controller_test.mocks.dart';
 import '../../utils/pump_screen.dart';
 import '../../utils/set_surface_size.dart';
 
 void main() {
-  final yumemiWeather = MockYumemiWeather();
-  const sunnyJsonData = '''
-        {
-          "weather_condition": "sunny",
-          "max_temperature": 30, 
-          "min_temperature": 15,
-          "date": "2024-06-19T00:00:00.000"
-        }
-        ''';
+  final mockRepository = MockYumemiWeatherRepository();
 
-  const cloudyJsonData = '''
-        {
-          "weather_condition": "cloudy",
-          "max_temperature": 20, 
-          "min_temperature": 10,
-          "date": "2024-06-19T00:00:00.000"
-        }
-        ''';
+  final sunnyWeather = YumemiWeatherApiResponse(
+    weatherCondition: WeatherCondition.sunny,
+    maxTemperature: 30,
+    minTemperature: 15,
+    date: DateTime(2024, 6, 19),
+  );
 
-  const rainyJsonData = '''
-        {
-          "weather_condition": "rainy",
-          "max_temperature": 10, 
-          "min_temperature": 5,
-          "date": "2024-06-19T00:00:00.000"
-        }
-        ''';
+  final cloudyWeather = YumemiWeatherApiResponse(
+    weatherCondition: WeatherCondition.cloudy,
+    maxTemperature: 20,
+    minTemperature: 10,
+    date: DateTime(2024, 6, 19),
+  );
+
+  final rainyWeather = YumemiWeatherApiResponse(
+    weatherCondition: WeatherCondition.rainy,
+    maxTemperature: 10,
+    minTemperature: 5,
+    date: DateTime(2024, 6, 19),
+  );
 
   setUp(() {
     reset(yumemiWeather);
@@ -48,7 +46,7 @@ void main() {
     await pumpScreen(
       tester,
       [
-        yumemiWeatherProvider.overrideWithValue(yumemiWeather),
+        yumemiWeatherRepositoryProvider.overrideWithValue(mockRepository),
       ],
       const WeatherScreen(),
     );
@@ -57,10 +55,11 @@ void main() {
   group('When fetchWeather is called', () {
     group('and in case valid respone', () {
       testWidgets('will display sunny weather icon.', (tester) async {
+        final completer = Completer<YumemiWeatherApiResponse>();
         when(
-          yumemiWeather.fetchWeather(any),
+          mockRepository.syncFetchWeather(any),
         ).thenAnswer(
-          (_) => sunnyJsonData,
+          (_) => completer.future,
         );
 
         await setSurfaceSize();
@@ -70,6 +69,12 @@ void main() {
         expect(find.text('** ℃'), findsNWidgets(2));
 
         await tester.tap(find.byKey(WeatherScreen.reloadButtonKey));
+        await tester.pump();
+
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+        completer.complete(sunnyWeather);
+
         await tester.pump();
 
         expect(find.text('30 ℃'), findsOneWidget);
@@ -81,10 +86,11 @@ void main() {
       });
 
       testWidgets('will display clody weather icon.', (tester) async {
+        final completer = Completer<YumemiWeatherApiResponse>();
         when(
-          yumemiWeather.fetchWeather(any),
+          mockRepository.syncFetchWeather(any),
         ).thenAnswer(
-          (_) => cloudyJsonData,
+          (_) => completer.future,
         );
 
         await setSurfaceSize();
@@ -96,6 +102,12 @@ void main() {
         await tester.tap(find.byKey(WeatherScreen.reloadButtonKey));
         await tester.pump();
 
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+        completer.complete(cloudyWeather);
+
+        await tester.pump();
+
         expect(find.text('20 ℃'), findsOneWidget);
         expect(find.text('10 ℃'), findsOneWidget);
         expect(
@@ -105,10 +117,11 @@ void main() {
       });
 
       testWidgets('will display rainy weather icon.', (tester) async {
+        final completer = Completer<YumemiWeatherApiResponse>();
         when(
-          yumemiWeather.fetchWeather(any),
+          mockRepository.syncFetchWeather(any),
         ).thenAnswer(
-          (_) => rainyJsonData,
+          (_) => completer.future,
         );
 
         await setSurfaceSize();
@@ -118,6 +131,12 @@ void main() {
         expect(find.text('** ℃'), findsNWidgets(2));
 
         await tester.tap(find.byKey(WeatherScreen.reloadButtonKey));
+        await tester.pump();
+
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+        completer.complete(rainyWeather);
+
         await tester.pump();
 
         expect(find.text('10 ℃'), findsOneWidget);
@@ -131,17 +150,24 @@ void main() {
 
     group('and in case error response', () {
       testWidgets('will display error dialog.', (tester) async {
+        final completer = Completer<YumemiWeatherApiResponse>();
         when(
-          yumemiWeather.fetchWeather(any),
-        ).thenThrow(
-          YumemiWeatherError.unknown,
+          mockRepository.syncFetchWeather(any),
+        ).thenAnswer(
+          (_) => completer.future,
         );
 
         await setSurfaceSize();
         await pumpWeatherScreen(tester);
 
         await tester.tap(find.byKey(WeatherScreen.reloadButtonKey));
-        await tester.pumpAndSettle();
+        await tester.pump();
+
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+        completer.completeError(YumemiWeatherError.unknown);
+
+        await tester.pump();
 
         expect(
           find.widgetWithText(
