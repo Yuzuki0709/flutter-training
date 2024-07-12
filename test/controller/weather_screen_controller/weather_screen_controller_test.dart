@@ -19,12 +19,14 @@ void main() {
     area: 'Tokyo',
     date: DateTime.now(),
   );
-  final response = YumemiWeatherApiResponse(
+  final weather = YumemiWeatherApiResponse(
     weatherCondition: WeatherCondition.sunny,
     maxTemperature: 30,
     minTemperature: 15,
     date: DateTime(2024, 6, 19),
   );
+  final response =
+      WeatherScreenControllerState(response: weather, isLoading: false);
 
   setUp(() {
     reset(mockRepository);
@@ -35,7 +37,7 @@ void main() {
       test('will return YumemiWeatherApiResponse', () {
         when(
           mockRepository.fetchWeather(request: request),
-        ).thenAnswer((_) => response);
+        ).thenAnswer((_) => weather);
 
         final container = createContainer([
           yumemiWeatherRepositoryProvider.overrideWithValue(mockRepository),
@@ -47,8 +49,8 @@ void main() {
 
         expect(
           container.read(weatherScreenControllerProvider),
-          isA<YumemiWeatherApiResponse>()
-              .having((weather) => weather, 'weather data', response),
+          isA<WeatherScreenControllerState>()
+              .having((state) => state, 'state', response),
         );
       });
       test('will return unkown error', () {
@@ -108,7 +110,7 @@ void main() {
       test('will return YumemiWeatherApiResponse', () async {
         when(
           mockRepository.syncFetchWeather(request),
-        ).thenAnswer((_) => Future.value(response));
+        ).thenAnswer((_) => Future.value(weather));
 
         final container = createContainer([
           yumemiWeatherRepositoryProvider.overrideWithValue(mockRepository),
@@ -125,7 +127,7 @@ void main() {
         expect(
           container.read(weatherScreenControllerProvider),
           isA<WeatherScreenControllerState>()
-              .having((state) => state.response, 'weather data', response),
+              .having((state) => state, 'state', response),
         );
       });
       test('will return unkown error', () async {
