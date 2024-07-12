@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_training/data/yumemi_weather_repository.dart';
 import 'package:flutter_training/model/yumemi_weather/request/yumemi_weather_api_request.dart';
 import 'package:flutter_training/screen/weather_screen/controller/state/weather_screen_controller_state.dart';
@@ -35,8 +34,7 @@ class WeatherScreenController extends _$WeatherScreenController {
 
     try {
       state = state.copyWith(isLoading: true);
-      final response =
-          await compute(yumemiWeatherRepository.syncFetchWeather, request);
+      final response = await yumemiWeatherRepository.syncFetchWeather(request);
       state = state.copyWith(response: response, isLoading: false);
     } on YumemiWeatherError {
       state = state.copyWith(isLoading: false);
