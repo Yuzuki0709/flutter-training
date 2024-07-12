@@ -52,7 +52,7 @@ void main() {
     );
   }
 
-  group('When fetchWeather is called', () {
+  group('When syncFetchWeather is called', () {
     group('and in case valid respone', () {
       testWidgets('will display sunny weather icon.', (tester) async {
         final completer = Completer<YumemiWeatherApiResponse>();
