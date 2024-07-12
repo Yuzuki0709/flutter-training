@@ -39,7 +39,7 @@ void main() {
   );
 
   setUp(() {
-    reset(yumemiWeather);
+    reset(mockRepository);
   });
 
   Future<void> pumpWeatherScreen(WidgetTester tester) async {
