@@ -14,76 +14,83 @@ class WeatherScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final weather = ref.watch(weatherScreenControllerProvider);
+    final state = ref.watch(weatherScreenControllerProvider);
 
     return Scaffold(
-      body: Center(
-        child: FractionallySizedBox(
-          widthFactor: 0.5,
-          child: Column(
-            children: [
-              const Spacer(),
+      body: Stack(
+        children: [
+          Center(
+            child: FractionallySizedBox(
+              widthFactor: 0.5,
+              child: Column(
+                children: [
+                  const Spacer(),
 
-              WeatherDetail(weather: weather),
+                  WeatherDetail(weather: state.response),
 
-              // Buttons
-              Expanded(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 80),
-                    Row(
+                  // Buttons
+                  Expanded(
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: Center(
-                            child: TextButton(
-                              key: const Key('Close'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Close'),
+                        const SizedBox(height: 80),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Center(
+                                child: TextButton(
+                                  key: const Key('Close'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Close'),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: TextButton(
-                              key: reloadButtonKey,
-                              onPressed: () {
-                                final request = YumemiWeatherApiRequest(
-                                  area: 'Tokyo',
-                                  date: DateTime.now(),
-                                );
-
-                                try {
-                                  ref
-                                      .read(
-                                        weatherScreenControllerProvider
-                                            .notifier,
-                                      )
-                                      .fetchWeather(request: request);
-                                } on YumemiWeatherError catch (e) {
-                                  Future(() async {
-                                    await showDialog<void>(
-                                      context: context,
-                                      builder: (context) => _ErrorDialog(
-                                        message: e.errorDescription(),
-                                      ),
+                            Expanded(
+                              child: Center(
+                                child: TextButton(
+                                  key: reloadButtonKey,
+                                  onPressed: () async {
+                                    final request = YumemiWeatherApiRequest(
+                                      area: 'Tokyo',
+                                      date: DateTime.now(),
                                     );
-                                  });
-                                }
-                              },
-                              child: const Text('Reload'),
+
+                                    try {
+                                      await ref
+                                          .read(
+                                            weatherScreenControllerProvider
+                                                .notifier,
+                                          )
+                                          .syncFetchWeather(request: request);
+                                    } on YumemiWeatherError catch (e) {
+                                      if (context.mounted) {
+                                        await showDialog<void>(
+                                          context: context,
+                                          builder: (context) => _ErrorDialog(
+                                            message: e.errorDescription(),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  },
+                                  child: const Text('Reload'),
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          if (state.isLoading) ...{
+            const _LoadingIndicator(),
+          },
+        ],
       ),
     );
   }
@@ -105,6 +112,20 @@ class _ErrorDialog extends StatelessWidget {
           child: const Text('OK'),
         ),
       ],
+    );
+  }
+}
+
+class _LoadingIndicator extends StatelessWidget {
+  const _LoadingIndicator();
+
+  @override
+  Widget build(BuildContext context) {
+    return const ColoredBox(
+      color: Colors.black54,
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

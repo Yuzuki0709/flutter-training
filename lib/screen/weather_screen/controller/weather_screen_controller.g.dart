@@ -7,12 +7,12 @@ part of 'weather_screen_controller.dart';
 // **************************************************************************
 
 String _$weatherScreenControllerHash() =>
-    r'7763671ae3efa08589d87199f86a4ca2d52009be';
+    r'25b651f58ae1c36232189db4776571c96e94cd9f';
 
 /// See also [WeatherScreenController].
 @ProviderFor(WeatherScreenController)
 final weatherScreenControllerProvider = AutoDisposeNotifierProvider<
-    WeatherScreenController, YumemiWeatherApiResponse?>.internal(
+    WeatherScreenController, WeatherScreenControllerState>.internal(
   WeatherScreenController.new,
   name: r'weatherScreenControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -23,6 +23,6 @@ final weatherScreenControllerProvider = AutoDisposeNotifierProvider<
 );
 
 typedef _$WeatherScreenController
-    = AutoDisposeNotifier<YumemiWeatherApiResponse?>;
+    = AutoDisposeNotifier<WeatherScreenControllerState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

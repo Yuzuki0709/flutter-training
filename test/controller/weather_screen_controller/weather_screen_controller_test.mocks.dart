@@ -3,6 +3,8 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'dart:async' as _i5;
+
 import 'package:flutter_training/data/yumemi_weather_repository.dart' as _i3;
 import 'package:flutter_training/model/yumemi_weather/request/yumemi_weather_api_request.dart'
     as _i4;
@@ -65,4 +67,31 @@ class MockYumemiWeatherRepository extends _i1.Mock
           ),
         ),
       ) as _i2.YumemiWeatherApiResponse);
+
+  @override
+  _i5.Future<_i2.YumemiWeatherApiResponse> syncFetchWeather(
+          _i4.YumemiWeatherApiRequest? request) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #syncFetchWeather,
+          [request],
+        ),
+        returnValue: _i5.Future<_i2.YumemiWeatherApiResponse>.value(
+            _FakeYumemiWeatherApiResponse_0(
+          this,
+          Invocation.method(
+            #syncFetchWeather,
+            [request],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i2.YumemiWeatherApiResponse>.value(
+                _FakeYumemiWeatherApiResponse_0(
+          this,
+          Invocation.method(
+            #syncFetchWeather,
+            [request],
+          ),
+        )),
+      ) as _i5.Future<_i2.YumemiWeatherApiResponse>);
 }
